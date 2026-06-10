@@ -23,7 +23,13 @@ class GenerateUser extends Command
         $role = $this->argument('role');
 
         if(User::where('email', $email)->exists()) {
-            $this->error('User already exists.');
+
+            $user = User::where('email', $email)->first();
+            $user->password = Hash::make($password);
+            $user->role = $role;
+            $user->save();
+
+            $this->error('User edited successfully');
             return;
         }
 
