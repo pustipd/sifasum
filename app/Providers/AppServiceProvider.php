@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') !== 'local') {
+            URL::forceScheme('https');
+        }
+
         View::composer('inc.sidebar', function ($view) {
             $view->with(
                 'list_fasilitas_umum',
