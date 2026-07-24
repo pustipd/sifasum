@@ -52,9 +52,9 @@ class HomeController extends Controller
                             DAY(peminjaman.tgl_awal) AS hari_awal,
                             YEAR(peminjaman.tgl_akhir) AS tahun_akhir,
                             MONTH(peminjaman.tgl_akhir) AS bulan_akhir,
-                            DAY(peminjaman.tgl_akhir) AS hari_akhir
+                            DAY(peminjaman.tgl_akhir) AS hari_akhir,
+                            EXISTS(SELECT 1 FROM pusbis p WHERE p.id_acara = peminjaman.id) AS has_pusbis
                         ")
-                        ->addSelect(DB::raw('CASE WHEN p.id IS NOT NULL THEN 1 ELSE 0 END as has_pusbis'))
                         ->orderByDesc('peminjaman.tgl_awal')
                         ->limit(1000)
                         ->get();
